@@ -16,7 +16,7 @@ function Title() {
         </Link>
 
         <Link href="/">
-          <h1>Borgman's kitchen companion</h1>
+          <h1>Borgman kitchen companion</h1>
         </Link>
       </div>
     </div>
