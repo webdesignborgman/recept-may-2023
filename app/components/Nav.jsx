@@ -13,16 +13,15 @@ const styles = {
   title: `flex text-yellow-500 text-2xl items-center justify-between gap-3 mx-4`,
   button: `bg-gray-700 py-1 px-3 rounded text-yellow-500 text-base mx-2 duration-300 hover:bg-yellow-500 hover:text-gray-700`,
 };
-const handleLogout = () => {
-  // This is a function component body, hooks can be used here
-  signOutUser()
-    .then(() => {
-      console.log('Logout successful');
-    })
-    .catch((error) => {
-      console.log('Logout failed: ', error.message);
-    });
-};
+// const handleLogout = () => {
+//   signOutUser()
+//     .then(() => {
+//       console.log('Logout successful');
+//     })
+//     .catch((error) => {
+//       console.log('Logout failed: ', error.message);
+//     });
+// };
 function Nav() {
   const { currentUser, signOutUser } = useContext(AuthContext);
 
@@ -37,16 +36,14 @@ function Nav() {
             </button>
           </Link>
         </div>
-        {currentUser ? (
+        {currentUser && (
           <span className="text-xl">{`Welcome, ${currentUser.displayName}`}</span>
-        ) : (
-          <span></span>
         )}
 
         <div>
           {currentUser ? (
             <>
-              <button className={styles.button} onClick={handleLogout}>
+              <button className={styles.button} onClick={signOutUser}>
                 Logout
               </button>
             </>

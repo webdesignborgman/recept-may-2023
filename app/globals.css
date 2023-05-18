@@ -3,3 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  max-width: 32rem; /* equivalent to max-w-lg */
+  margin: 0 auto;
+}

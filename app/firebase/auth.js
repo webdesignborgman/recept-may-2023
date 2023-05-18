@@ -55,6 +55,7 @@ export const onAuthStateChange = (callback) => {
 export const signOutUser = async () => {
   try {
     await signOut(auth);
+    console.log('Logout successful');
   } catch (error) {
     console.log(error.message);
   }

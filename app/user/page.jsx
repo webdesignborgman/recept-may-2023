@@ -1,14 +1,19 @@
 /** @format */
+'use client';
 
+import { useContext } from 'react';
+import { AuthContext } from '../firebase/AuthContext';
 import LoginForm from '../components/LoginForm';
+import UserDashBoard from '../components/UserDashBoard';
 import RegisterForm from '../components/RegisterForm';
 
-const userPage = () => {
+export default function userPage() {
+  const { currentUser } = useContext(AuthContext);
+
   return (
-    <div className="text-2xl">
-      <LoginForm />
+    <div className="">
+      {!currentUser && <LoginForm />}
+      {currentUser && <UserDashBoard />}
     </div>
   );
-};
-
-export default userPage;
+}

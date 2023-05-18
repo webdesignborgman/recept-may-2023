@@ -7,11 +7,15 @@
 import { AuthProvider } from './firebase/AuthContext';
 
 import './globals.css';
-// import { Montserrat } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import Header from './components/Header';
 import Nav from './components/Nav';
+import Footer from './components/Footer';
 
-// const montserrat = Montserrat({ subsets: ['latin'] });
+const poppins = Poppins({
+  weight: ['100', '200', '400'],
+  subsets: ['latin'],
+});
 
 export const metadata = {
   title: "Borgman's kitchen companion",
@@ -21,17 +25,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <AuthProvider>
+    <AuthProvider>
+      <html lang="en">
         {/* 
       Add this back to body when fixed
       className={montserrat.className} */}
-        <body>
+        <body className={poppins.className}>
           <Header />
           <Nav />
           {children}
+          <Footer />
         </body>
-      </AuthProvider>
-    </html>
+      </html>
+    </AuthProvider>
   );
 }
