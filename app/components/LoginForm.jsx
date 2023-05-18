@@ -2,7 +2,7 @@
 'use client';
 
 import { useContext } from 'react';
-import { AuthContext } from '../firebase/AuthContext.js';
+import { AuthContext } from '../firebase/AuthContext';
 import { MdRestaurantMenu } from 'react-icons/md';
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from '../firebase/auth';

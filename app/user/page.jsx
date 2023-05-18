@@ -2,7 +2,7 @@
 'use client';
 
 import { useContext } from 'react';
-import { AuthContext } from '../firebase/AuthContext';
+import { AuthContext } from '../firebase/AuthContext.js';
 import LoginForm from '../components/LoginForm';
 import UserDashBoard from '../components/UserDashBoard';
 import RegisterForm from '../components/RegisterForm';

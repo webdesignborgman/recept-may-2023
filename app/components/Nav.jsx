@@ -1,8 +1,8 @@
 /** @format */
 'use client';
 
-import { useContext } from 'react';
-import { AuthContext } from '../firebase/AuthContext.js';
+import { createContext, useContext } from 'react';
+import { AuthContext } from '../firebase/AuthContext';
 import { useRouter } from 'next/navigation';
 import { signOutUser } from '../firebase/auth.js';
 import { FaSearch } from 'react-icons/fa';
@@ -23,8 +23,7 @@ const styles = {
 //     });
 // };
 function Nav() {
-  const { currentUser, signOutUser } = useContext(AuthContext);
-
+  const { currentUser } = useContext(AuthContext);
   return (
     <div className={styles.container}>
       <div className={styles.title}>
