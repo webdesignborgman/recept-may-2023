@@ -17,12 +17,6 @@ const poppins = Poppins({
   subsets: ['latin'],
 });
 
-export const metadata = {
-  title: "Borgman's kitchen companion",
-  description:
-    'This is an app for personal use in the Borgman household. Also its mainly for learning purposes in learning webdesign, next.js, Firebase adn tailwind.css',
-};
-
 export default function RootLayout({ children }) {
   return (
     <AuthProvider>
