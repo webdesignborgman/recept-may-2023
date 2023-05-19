@@ -7,8 +7,6 @@
 import { AuthProvider } from './firebase/AuthContext';
 
 import './globals.css';
-import Header from './components/Header';
-import Nav from './components/Nav';
 
 export default function RootLayout({ children }) {
   return (
@@ -16,14 +14,7 @@ export default function RootLayout({ children }) {
       {/* 
       Add this back to body when fixed
       className={montserrat.className} */}
-      <body>
-        <AuthProvider>
-          <Header />
-          {/* <Nav /> */}
-          {children}
-          <Footer />
-        </AuthProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
