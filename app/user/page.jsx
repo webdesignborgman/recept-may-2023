@@ -1,19 +1,19 @@
 /** @format */
-'use client';
 
+<<<<<<< HEAD
 import { useContext } from 'react';
 import { AuthContext } from '../firebase/AuthContext.js';
+=======
+>>>>>>> parent of 22f3e07 (fiddling wiht login)
 import LoginForm from '../components/LoginForm';
-import UserDashBoard from '../components/UserDashBoard';
 import RegisterForm from '../components/RegisterForm';
 
-export default function userPage() {
-  const { currentUser } = useContext(AuthContext);
-
+const userPage = () => {
   return (
-    <div className="">
-      {!currentUser && <LoginForm />}
-      {currentUser && <UserDashBoard />}
+    <div className="text-2xl">
+      <LoginForm />
     </div>
   );
-}
+};
+
+export default userPage;
