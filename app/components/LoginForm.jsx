@@ -1,16 +1,17 @@
 /** @format */
 'use client';
 
+<<<<<<< HEAD
 import { useContext } from 'react';
-import { AuthContext } from '../firebase/AuthContext.js';
+import { AuthContext } from '../firebase/AuthContext';
+=======
+>>>>>>> parent of 22f3e07 (fiddling wiht login)
 import { MdRestaurantMenu } from 'react-icons/md';
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from '../firebase/auth';
 import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
-  const { currentUser } = useContext(AuthContext);
-
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,11 +32,9 @@ const LoginForm = () => {
 
     try {
       // Call the sign in function from auth.js with the email and password
-      signInWithEmailAndPassword(email, password);
 
       const user = await signInWithEmailAndPassword(email, password);
       // Handle successful login
-      console.log('Login succesfull');
       router.push('/user/dashboard');
     } catch (error) {
       // Handle login error
