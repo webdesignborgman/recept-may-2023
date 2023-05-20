@@ -9,7 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
 } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
 
   function googleSignIn() {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    return signInWithRedirect(auth, provider);
   }
 
   function signup(email, password) {
@@ -38,12 +38,7 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  //   function logout() {
-  //     console.log('Logout succesfull!');
-  //     return signOut(auth);
-  //   }
   function logout() {
-    console.log('Logout function is called');
     return signOut(auth)
       .then(() => {
         console.log('Logout successful');
@@ -52,12 +47,6 @@ export function AuthProvider({ children }) {
         console.log('Logout failed:', error.message);
       });
   }
-  //   const auth = getAuth();
-  //   signOut(auth).then(() => {
-  //     // Sign-out successful.
-  //   }).catch((error) => {
-  //     // An error happened.
-  //   });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
