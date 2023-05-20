@@ -1,27 +1,30 @@
 /** @format */
 
 import { FcGoogle } from 'react-icons/fc';
+import { useAuth } from '../firebase/AuthContext';
 
-export default function Login() {
+export default function Login({ onSignUpClick }) {
+  const { googleSignIn } = useAuth();
   return (
     <div className="w-full mx-auto max-w-md m-4 p-4 rounded-md shadow sm:p-8 dark:dark:bg-gray-900 dark:dark:text-gray-100">
       <h2 className="mb-3 text-3xl font-semibold text-center">
         Login to your account
       </h2>
-      <p className="text-sm text-center dark:dark:text-gray-400">
+      <h2 className="text-sm text-center dark:dark:text-gray-400">
         Dont have account?
-        <a
-          href="#"
+        <p
           rel="noopener noreferrer"
-          className="focus:underline hover:underline"
+          className="focus:underline hover:underline cursor-pointer"
+          onClick={onSignUpClick}
         >
           Sign up here
-        </a>
-      </p>
+        </p>
+      </h2>
       <div className="my-6 space-y-4">
         <button
           aria-label="Login with Google"
           type="button"
+          onClick={googleSignIn}
           className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:dark:border-gray-400 focus:ring-violet-400"
         >
           <FcGoogle className="w-5 h-5 fill-current" />
@@ -77,7 +80,7 @@ export default function Login() {
         </div>
         <button
           type="button"
-          className="w-full px-8 py-3 font-semibold rounded-md dark:dark:bg-violet-400 dark:dark:text-gray-900"
+          className="w-full px-8 py-3 font-semibold rounded-md dark:dark:bg-yellow-500 dark:dark:text-gray-900"
         >
           Sign in
         </button>
