@@ -13,6 +13,8 @@ export default function UserDashBoard() {
       <p>Username: {currentUser.displayName}</p>
       <p>Email: {currentUser.email}</p>
       <p>Email-verified: {currentUser.emailVerified ? 'Yes' : 'No'}</p>
+      <p>resend verification mail:</p>
+      <p>change password:</p>
       <button
         onClick={logout}
         className="w-full px-8 py-3 font-semibold rounded-md dark:dark:bg-yellow-500 dark:dark:text-gray-900"
