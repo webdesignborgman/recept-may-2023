@@ -7,18 +7,22 @@ import { useAuth } from '../firebase/AuthContext';
 import { useState } from 'react';
 
 export default function Login({ onSignUpClick }) {
-  const { googleSignIn, login } = useAuth();
+  const { googleSignIn, login, resetPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  console.log(email, password);
+  const [passwordReset, setPasswordReset] = useState('');
 
   const handleLogin = () => {
     login(email, password);
   };
 
+  const handleResetPassword = () => {
+    resetPassword(email);
+    setPasswordReset('EMAIL SEND!');
+  };
+
   return (
-    <div className="w-full mx-auto max-w-md m-4 p-4 rounded-md shadow sm:p-8 dark:dark:bg-gray-900 dark:dark:text-gray-100">
+    <div className="w-full mx-auto max-w-md m-4 p-4 rounded-md shadow sm:p-8 dark:dark:bg-gray-700 dark:dark:text-gray-100">
       <h2 className="mb-3 text-3xl font-semibold text-center">
         Login to your account
       </h2>
@@ -75,10 +79,19 @@ export default function Login({ onSignUpClick }) {
               </label>
               <a
                 rel="noopener noreferrer"
-                href="#"
-                className="text-xs hover:underline dark:dark:text-gray-400"
+                onClick={handleResetPassword}
+                className="group relative cursor-pointer	text-xs hover:underline dark:dark:text-gray-400"
               >
-                Forgot password?
+                {passwordReset === '' ? (
+                  <p>Reset password?</p>
+                ) : (
+                  <p className="text-yellow-500 font-extrabold">
+                    {passwordReset}
+                  </p>
+                )}
+                <span className="pointer-events-none absolute -top-8 right-20 w-max rounded bg-gray-900 px-2 py-1 text-sm font-medium text-yellow-500 opacity-0 shadow transition-opacity group-hover:opacity-100">
+                  Mail will be send to email adress above
+                </span>
               </a>
             </div>
             <input

@@ -11,6 +11,7 @@ import {
   onAuthStateChanged,
   signInWithRedirect,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -48,6 +49,11 @@ export function AuthProvider({ children }) {
       });
   }
 
+  function resetPassword(email) {
+    console.log('Reset password function called!');
+    return sendPasswordResetEmail(auth, email);
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
@@ -62,6 +68,7 @@ export function AuthProvider({ children }) {
     signup,
     logout,
     googleSignIn,
+    resetPassword,
   };
 
   return (
