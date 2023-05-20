@@ -11,7 +11,7 @@ export default function Header() {
       </Link>
 
       <Link href="/">
-        <h1>Borgman's kitchen companion</h1>
+        <h1>Borgman&#39;s kitchen companion</h1>
       </Link>
     </div>
   );
