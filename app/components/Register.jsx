@@ -1,8 +1,11 @@
 /** @format */
 
 import { FcGoogle } from 'react-icons/fc';
+import { useAuth } from '../firebase/AuthContext';
 
 export default function Register({ onBackToLogin }) {
+  const { googleSignIn } = useAuth();
+
   return (
     <div className="w-full mx-auto max-w-md m-4 p-4 rounded-md shadow sm:p-8 dark:dark:bg-gray-700 dark:dark:text-gray-100">
       <h2 className="mb-3 text-3xl font-semibold text-center">
@@ -83,6 +86,7 @@ export default function Register({ onBackToLogin }) {
         <button
           aria-label="Login with Google"
           type="button"
+          onClick={googleSignIn}
           className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:dark:border-gray-400 focus:ring-violet-400"
         >
           <FcGoogle className="w-5 h-5 fill-current" />
