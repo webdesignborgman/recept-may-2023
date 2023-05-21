@@ -21,7 +21,7 @@ export default function UserPage() {
   };
 
   return (
-    <div>
+    <div className="max-w-md w-full mx-auto text-gray-50">
       {currentUser ? (
         <UserDashboard />
       ) : showRegister ? (
