@@ -86,10 +86,10 @@ export default function Menu() {
                     </a>
                   </li>
 
-                  <li className="rounded-sm hover:bg-gray-800">
+                  <li className="rounded-sm">
                     <a
                       rel="noopener noreferrer"
-                      //   href="#"
+                      //   href="#" hover:bg-gray-800
                       className="flex items-center p-2 space-x-3 rounded-md text-2xl text-gray-900 line-through"
                     >
                       <IoHeartOutline />
