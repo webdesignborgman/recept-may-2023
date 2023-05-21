@@ -6,7 +6,7 @@ import { useAuth } from '../firebase/AuthContext';
 
 export default function UserDashBoard() {
   const { currentUser, logout } = useAuth();
-
+  console.log(currentUser);
   return (
     <div className="">
       <div>UserDashBoard</div>

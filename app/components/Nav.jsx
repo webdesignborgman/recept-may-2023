@@ -10,7 +10,7 @@ export default function Nav() {
   const { currentUser, logout } = useAuth();
 
   return (
-    <div className="flex bg-gray-500 p-6 text-yellow-500 text-2xl items-center justify-between gap-3 mx-2 my-6 rounded max-w-md mx-auto">
+    <div className="flex bg-gray-500 p-6 text-yellow-500 text-2xl items-center justify-between gap-3 my-6 rounded max-w-md mx-auto">
       <div>
         <Link href="/search/">
           <button>

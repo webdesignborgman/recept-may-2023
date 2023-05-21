@@ -12,6 +12,7 @@ import {
   signInWithRedirect,
   GoogleAuthProvider,
   sendPasswordResetEmail,
+  updateProfile,
 } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -33,6 +34,23 @@ export function AuthProvider({ children }) {
   function signup(email, password) {
     createUserWithEmailAndPassword(auth, email, password);
     return;
+  }
+
+  async function register(email, password, username) {
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log('Username created');
+      await updateProfile(user, { displayName: username });
+      console.log('displayname created');
+      // Continue with any additional logic or redirection
+    } catch (error) {
+      console.log(error);
+      // Handle registration error
+    }
   }
 
   function login(email, password) {
@@ -66,6 +84,7 @@ export function AuthProvider({ children }) {
     currentUser,
     login,
     signup,
+    register,
     logout,
     googleSignIn,
     resetPassword,

@@ -2,9 +2,17 @@
 
 import { FcGoogle } from 'react-icons/fc';
 import { useAuth } from '../firebase/AuthContext';
+import { useState } from 'react';
 
 export default function Register({ onBackToLogin }) {
-  const { googleSignIn } = useAuth();
+  const { googleSignIn, register } = useAuth();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegister = () => {
+    register(email, password, username);
+  };
 
   return (
     <div className="w-full mx-auto max-w-md m-4 p-4 rounded-md shadow sm:p-8 dark:dark:bg-gray-700 dark:dark:text-gray-100">
@@ -36,6 +44,7 @@ export default function Register({ onBackToLogin }) {
               type="text"
               name="text"
               id="text"
+              onChange={(e) => setUsername(e.target.value)}
               autoComplete="current-username"
               placeholder="Leroy"
               className="w-full px-3 py-2 border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
@@ -49,6 +58,7 @@ export default function Register({ onBackToLogin }) {
               type="email"
               name="email"
               id="email"
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="current-email"
               placeholder="leroy@jenkins.com"
               className="w-full px-3 py-2 border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
@@ -64,6 +74,7 @@ export default function Register({ onBackToLogin }) {
               type="password"
               name="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="*****"
               autoComplete="current-password"
               className="w-full px-3 py-2 border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
@@ -72,6 +83,7 @@ export default function Register({ onBackToLogin }) {
         </div>
         <button
           type="button"
+          onClick={handleRegister}
           className="w-full px-8 py-3 font-semibold rounded-md dark:dark:bg-yellow-500 dark:dark:text-gray-900"
         >
           Register
