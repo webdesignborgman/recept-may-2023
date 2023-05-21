@@ -1,7 +1,7 @@
 /** @format */
 
-import Image from 'next/image';
+import Menu from './components/Menu';
 
 export default function homePage() {
-  return <div>Homepage</div>;
+  return <div className="max-w-md w-full mx-auto text-gray-50">Homepage</div>;
 }

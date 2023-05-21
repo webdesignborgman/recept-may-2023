@@ -8,7 +8,7 @@ export default function UserDashBoard() {
   const { currentUser, logout } = useAuth();
   console.log(currentUser);
   return (
-    <div className="">
+    <div className="max-w-md mx-auto text-gray-50">
       <div>UserDashBoard</div>
       <p>Username: {currentUser.displayName}</p>
       <p>Email: {currentUser.email}</p>
@@ -17,7 +17,7 @@ export default function UserDashBoard() {
       <p>change password:</p>
       <button
         onClick={logout}
-        className="w-full px-8 py-3 font-semibold rounded-md dark:dark:bg-yellow-500 dark:dark:text-gray-900"
+        className="w-full mt-4 px-8 py-3 font-semibold rounded-md dark:dark:bg-yellow-500 dark:dark:text-gray-900"
       >
         logout
       </button>

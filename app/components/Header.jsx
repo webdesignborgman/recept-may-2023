@@ -5,7 +5,7 @@ import { MdRestaurantMenu } from 'react-icons/md';
 
 export default function Header() {
   return (
-    <div className="flex bg-gray-700 p-4 text-yellow-500 text-1xl items-center justify-center gap-3 my-6 rounded max-w-md mx-auto">
+    <div className="flex bg-gray-700 p-4 text-yellow-500 text-1xl items-center justify-center gap-3 my-4 rounded max-w-md mx-auto">
       <Link href="/">
         <MdRestaurantMenu />
       </Link>
