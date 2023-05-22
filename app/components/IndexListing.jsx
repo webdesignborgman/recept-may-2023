@@ -17,7 +17,7 @@ import {
 } from 'firebase/firestore';
 
 const styles = {
-  title: `text-yellow-500 font-bold text-3xl text-center mt-2 max-w-md w-full mx-auto`,
+  title: `text-yellow-500 font-bold text-3xl text-center my-4 max-w-md w-full mx-auto`,
   button: `bg-gray-500 text-yellow-500 px-4 text-center mt-4 p-2 duration-300 hover:bg-yellow-500 hover:text-gray-900`,
 };
 
