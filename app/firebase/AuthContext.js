@@ -10,6 +10,7 @@ import {
   signOut,
   onAuthStateChanged,
   signInWithRedirect,
+  signInWithPopup,
   GoogleAuthProvider,
   sendPasswordResetEmail,
   updateProfile,
@@ -28,7 +29,7 @@ export function AuthProvider({ children }) {
 
   function googleSignIn() {
     const provider = new GoogleAuthProvider();
-    return signInWithRedirect(auth, provider);
+    return signInWithPopup(auth, provider);
   }
 
   function signup(email, password) {

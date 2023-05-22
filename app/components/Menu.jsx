@@ -4,13 +4,12 @@
 
 import { useState } from 'react';
 import { useAuth } from '../firebase/AuthContext';
-import { FaHamburger, FaWindowClose } from 'react-icons/fa';
+import { FaHamburger } from 'react-icons/fa';
 
 import {
   IoHeartOutline,
   IoHomeOutline,
   IoLogOutOutline,
-  IoPerson,
   IoPersonOutline,
   IoSearchOutline,
   IoCloseOutline,
@@ -31,7 +30,7 @@ export default function Menu() {
 
   return (
     <>
-      <button onClick={openModal}>
+      <div onClick={openModal}>
         {currentUser ? (
           <button
             onClick={openModal}
@@ -46,7 +45,7 @@ export default function Menu() {
             </button>
           </Link>
         )}
-      </button>
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-end z-10 bg-black bg-opacity-80 max-w-md w-full mx-auto">
