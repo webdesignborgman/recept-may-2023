@@ -49,7 +49,7 @@ export default function Menu() {
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-end z-10 bg-black bg-opacity-80 max-w-md w-full mx-auto">
-          <div className="absolute top-24 right-0 flex flex-col h-80 p-2 w-60 dark:dark:bg-gray-700 dark:dark:text-gray-100">
+          <div className="absolute top-24 right-0 flex flex-col h-100 p-2 w-64 dark:dark:bg-gray-700 dark:dark:text-gray-100">
             <div className="space-y-3 p-2">
               <div className="flex items-center justify-between">
                 <h2>Menu</h2>
@@ -95,6 +95,29 @@ export default function Menu() {
                       <span className="text-lg">Favorites</span>
                     </a>
                   </li>
+
+                  <li className="rounded-sm">
+                    <a
+                      rel="noopener noreferrer"
+                      //   href="#" hover:bg-gray-800
+                      className="flex items-center p-2 space-x-3 rounded-md text-2xl text-gray-900 line-through"
+                    >
+                      <IoHeartOutline />
+                      <span className="text-lg">Groceries</span>
+                    </a>
+                  </li>
+
+                  <li className="rounded-sm">
+                    <a
+                      rel="noopener noreferrer"
+                      //   href="#" hover:bg-gray-800
+                      className="flex items-center p-2 space-x-3 rounded-md text-2xl text-gray-900 line-through"
+                    >
+                      <IoHeartOutline />
+                      <span className="text-lg">Weekmenu</span>
+                    </a>
+                  </li>
+
                   <li className="rounded-sm hover:bg-gray-800">
                     <a
                       rel="noopener noreferrer"
