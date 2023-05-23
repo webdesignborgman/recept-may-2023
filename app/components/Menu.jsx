@@ -133,7 +133,7 @@ export default function Menu() {
                   <li onClick={logout} className="rounded-sm hover:bg-gray-800">
                     <a
                       rel="noopener noreferrer"
-                      className="flex items-center p-2 space-x-3 rounded-md text-2xl"
+                      className="flex items-center p-2 space-x-3 rounded-md text-2xl cursor-pointer"
                     >
                       <IoLogOutOutline />
                       <span className="text-lg">Logout</span>

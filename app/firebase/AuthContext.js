@@ -60,13 +60,13 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
-    return signOut(auth)
-      .then(() => {
-        console.log('Logout successful');
-      })
-      .catch((error) => {
-        console.log('Logout failed:', error.message);
-      });
+    try {
+      signOut(auth);
+
+      console.log('Logout successful');
+    } catch (error) {
+      console.log('Logout failed:', error.message);
+    }
   }
 
   function resetPassword(email) {

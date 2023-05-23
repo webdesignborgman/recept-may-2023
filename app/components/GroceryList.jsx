@@ -31,26 +31,6 @@ export default function GroceryList() {
   const [editItemId, setEditItemId] = useState(null);
   const [editItemName, setEditItemName] = useState('');
 
-  if (!currentUser) {
-    return (
-      <div className="flex flex-col items-center justify-center my-5">
-        <h2>Please login to view your grocery list.</h2>
-        <Link
-          href="/"
-          className="bg-gray-700 text-gray-100 rounded py-2 px-4 m-4"
-        >
-          Home
-        </Link>
-        <Link
-          href="/user"
-          className="bg-gray-700 text-gray-100 rounded py-2 px-4"
-        >
-          Login
-        </Link>
-      </div>
-    );
-  }
-
   const handleEditItem = (itemId, itemName) => {
     setEditItemId(itemId);
     setEditItemName(itemName);
@@ -128,21 +108,6 @@ export default function GroceryList() {
     }
   };
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      query(collection(db, 'groceryLists', currentUser.uid, 'groceries')),
-      (snapshot) => {
-        const items = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setGroceryItems(items);
-      }
-    );
-
-    return () => unsubscribe();
-  }, [currentUser]);
-
   const handleToggleItem = async (itemId, isChecked) => {
     const groceryItemRef = doc(
       db,
@@ -160,6 +125,41 @@ export default function GroceryList() {
     const filteredItems = groceryItems.filter((item) => item.isChecked);
     setCartItems(filteredItems);
   }, [groceryItems]);
+
+  if (!currentUser) {
+    return (
+      <div className="flex flex-col items-center justify-center my-5">
+        <h2>Please login to view your grocery list.</h2>
+        <Link
+          href="/"
+          className="bg-gray-700 text-gray-100 rounded py-2 px-4 m-4"
+        >
+          Home
+        </Link>
+        <Link
+          href="/user"
+          className="bg-gray-700 text-gray-100 rounded py-2 px-4"
+        >
+          Login
+        </Link>
+      </div>
+    );
+  }
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, 'groceryLists', currentUser.uid, 'groceries')),
+      (snapshot) => {
+        const items = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setGroceryItems(items);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [currentUser]);
 
   return (
     <div className="bg-gray-700 p-4 rounded">
