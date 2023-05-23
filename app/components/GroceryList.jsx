@@ -126,6 +126,23 @@ export default function GroceryList() {
     setCartItems(filteredItems);
   }, [groceryItems]);
 
+  useEffect(() => {
+    if (currentUser) {
+      const unsubscribe = onSnapshot(
+        query(collection(db, 'groceryLists', currentUser.uid, 'groceries')),
+        (snapshot) => {
+          const items = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setGroceryItems(items);
+        }
+      );
+
+      return () => unsubscribe();
+    }
+  }, [currentUser]);
+
   if (!currentUser) {
     return (
       <div className="flex flex-col items-center justify-center my-5">
@@ -145,21 +162,6 @@ export default function GroceryList() {
       </div>
     );
   }
-
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      query(collection(db, 'groceryLists', currentUser.uid, 'groceries')),
-      (snapshot) => {
-        const items = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setGroceryItems(items);
-      }
-    );
-
-    return () => unsubscribe();
-  }, [currentUser]);
 
   return (
     <div className="bg-gray-700 p-4 rounded">
