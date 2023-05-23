@@ -13,6 +13,8 @@ import {
   IoPersonOutline,
   IoSearchOutline,
   IoCloseOutline,
+  IoBagAddOutline,
+  IoCalendarOutline,
 } from 'react-icons/io5';
 import Link from 'next/link';
 
@@ -96,13 +98,13 @@ export default function Menu() {
                     </a>
                   </li>
 
-                  <li className="rounded-sm">
+                  <li className="rounded-sm hover:bg-gray-800">
                     <a
                       rel="noopener noreferrer"
-                      //   href="#" hover:bg-gray-800
-                      className="flex items-center p-2 space-x-3 rounded-md text-2xl text-gray-900 line-through"
+                      href="/groceries"
+                      className="flex items-center p-2 space-x-3 rounded-md text-2xl"
                     >
-                      <IoHeartOutline />
+                      <IoBagAddOutline />
                       <span className="text-lg">Groceries</span>
                     </a>
                   </li>
@@ -113,7 +115,7 @@ export default function Menu() {
                       //   href="#" hover:bg-gray-800
                       className="flex items-center p-2 space-x-3 rounded-md text-2xl text-gray-900 line-through"
                     >
-                      <IoHeartOutline />
+                      <IoCalendarOutline />
                       <span className="text-lg">Weekmenu</span>
                     </a>
                   </li>
