@@ -23,6 +23,7 @@ import {
   IoCheckmarkOutline,
   IoCloseCircleOutline,
 } from 'react-icons/io5';
+import AddGroceryItem from './AddGroceryItem';
 
 export default function GroceryList() {
   const { currentUser } = useAuth();
@@ -232,6 +233,10 @@ export default function GroceryList() {
 
   return (
     <div className="bg-gray-700 p-4 rounded">
+      <AddGroceryItem />
+      <div className="flex items-center w-full my-4">
+        <hr className="w-full border-gray-500" />
+      </div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-gray-100 text-2xl mb-4">Boodschappen</h2>
         <span
