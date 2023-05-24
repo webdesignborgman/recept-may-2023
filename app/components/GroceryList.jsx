@@ -166,7 +166,7 @@ export default function GroceryList() {
   return (
     <div className="bg-gray-700 p-4 rounded">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-gray-100 text-xl mb-4">Boodschappen</h2>
+        <h2 className="text-gray-100 text-2xl mb-4">Boodschappen</h2>
         <span
           onClick={handleDeleteUncheckedItems}
           className="text-xs text-red-600 uppercase cursor-pointer"
@@ -196,20 +196,20 @@ export default function GroceryList() {
                     />
                     <button
                       onClick={() => handleSaveEdit(item.id)}
-                      className="text-xl text-green-500 cursor-pointer hover:text-green-100"
+                      className="text-2xl text-green-500 cursor-pointer hover:text-green-100"
                     >
                       <IoCheckmarkOutline />
                     </button>
                     <button
                       onClick={handleCancelEdit}
-                      className="text-xl text-red-500 cursor-pointer hover:text-red-100"
+                      className="text-2xl text-red-500 cursor-pointer hover:text-red-100"
                     >
                       <IoCloseCircleOutline />
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <span className="text-gray-100 self-start">
+                    <span className="text-gray-100 text-2xl self-start">
                       {item.name}
                     </span>
                   </div>
@@ -219,13 +219,13 @@ export default function GroceryList() {
             <div className="flex items-center gap-4">
               <div
                 onClick={() => handleEditItem(item.id, item.name)}
-                className="text-xl text-blue-500 cursor-pointer hover:text-blue-100"
+                className="text-2xl text-blue-500 cursor-pointer hover:text-blue-100"
               >
                 <IoCreateOutline />
               </div>
               <div
                 onClick={() => handleDeleteItem(item.id)}
-                className="text-xl text-yellow-500 cursor-pointer hover:text-yellow-100"
+                className="text-2xl text-yellow-500 cursor-pointer hover:text-yellow-100"
               >
                 <IoTrashOutline />
               </div>
@@ -238,7 +238,7 @@ export default function GroceryList() {
       </div>
 
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-gray-100 text-xl mb-4">In de kar</h2>
+        <h2 className="text-gray-100 text-2xl mb-4">In de kar</h2>
         <span
           onClick={handleDeleteCheckedItems}
           className="text-xs text-red-600 uppercase cursor-pointer"
@@ -255,15 +255,17 @@ export default function GroceryList() {
               checked={item.isChecked}
               onChange={() => handleToggleItem(item.id, item.isChecked)}
             />
-            <span className="text-gray-100 self-start">{item.name}</span>
+            <span className="text-gray-100 text-2xl self-start">
+              {item.name}
+            </span>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-xl text-blue-500 cursor-pointer hover:text-blue-100">
+            <div className="text-2xl text-blue-500 cursor-pointer hover:text-blue-100">
               <IoCreateOutline />
             </div>
             <div
               onClick={() => handleDeleteItem(item.id)}
-              className="text-xl text-yellow-500 cursor-pointer hover:text-yellow-100"
+              className="text-2xl text-yellow-500 cursor-pointer hover:text-yellow-100"
             >
               <IoTrashOutline />
             </div>
