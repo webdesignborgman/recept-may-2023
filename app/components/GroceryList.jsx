@@ -45,6 +45,30 @@ export default function GroceryList() {
       itemId
     );
 
+    const handleSaveEdit = async (itemId) => {
+      // Update the item in the database with the new name
+      const groceryItemRef = doc(
+        db,
+        'groceryLists',
+        currentUser.uid,
+        'groceries',
+        itemId
+      );
+      await updateDoc(groceryItemRef, {
+        name: editItemName,
+      });
+
+      // Clear the edit state
+      setEditItemId(null);
+      setEditItemName('');
+    };
+
+    const handleCancelEdit = () => {
+      // Clear the edit state
+      setEditItemId(null);
+      setEditItemName('');
+    };
+
     await updateDoc(groceryItemRef, {
       name: editItemName,
     });
@@ -76,35 +100,78 @@ export default function GroceryList() {
     }
   };
 
+  // const handleDeleteUncheckedItems = async () => {
+  //   try {
+  //     const uncheckedItemsQuery = query(
+  //       collection(db, 'groceryLists', currentUser.uid, 'groceries'),
+  //       where('isChecked', '==', false)
+  //     );
+  //     const uncheckedItemsSnapshot = await getDocs(uncheckedItemsQuery);
+  //     const batch = writeBatch(db);
+  //     uncheckedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
+  //     await batch.commit();
+  //   } catch (error) {
+  //     console.log('Error deleting unchecked items:', error);
+  //     // Handle error if needed
+  //   }
+  // };
   const handleDeleteUncheckedItems = async () => {
-    try {
-      const uncheckedItemsQuery = query(
-        collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-        where('isChecked', '==', false)
-      );
-      const uncheckedItemsSnapshot = await getDocs(uncheckedItemsQuery);
-      const batch = writeBatch(db);
-      uncheckedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
-      await batch.commit();
-    } catch (error) {
-      console.log('Error deleting unchecked items:', error);
-      // Handle error if needed
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete all unchecked items?'
+    );
+
+    if (confirmDelete) {
+      try {
+        const uncheckedItemsQuery = query(
+          collection(db, 'groceryLists', currentUser.uid, 'groceries'),
+          where('isChecked', '==', false)
+        );
+        const uncheckedItemsSnapshot = await getDocs(uncheckedItemsQuery);
+        const batch = writeBatch(db);
+        uncheckedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
+        await batch.commit();
+      } catch (error) {
+        console.log('Error deleting unchecked items:', error);
+        // Handle error if needed
+      }
     }
   };
 
+  // const handleDeleteCheckedItems = async () => {
+  //   try {
+  //     const checkedItemsQuery = query(
+  //       collection(db, 'groceryLists', currentUser.uid, 'groceries'),
+  //       where('isChecked', '==', true)
+  //     );
+  //     const checkedItemsSnapshot = await getDocs(checkedItemsQuery);
+  //     const batch = writeBatch(db);
+  //     checkedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
+  //     await batch.commit();
+  //   } catch (error) {
+  //     console.log('Error deleting checked items:', error);
+  //     // Handle error if needed
+  //   }
+  // };
+
   const handleDeleteCheckedItems = async () => {
-    try {
-      const checkedItemsQuery = query(
-        collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-        where('isChecked', '==', true)
-      );
-      const checkedItemsSnapshot = await getDocs(checkedItemsQuery);
-      const batch = writeBatch(db);
-      checkedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
-      await batch.commit();
-    } catch (error) {
-      console.log('Error deleting checked items:', error);
-      // Handle error if needed
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete all checked items?'
+    );
+
+    if (confirmDelete) {
+      try {
+        const checkedItemsQuery = query(
+          collection(db, 'groceryLists', currentUser.uid, 'groceries'),
+          where('isChecked', '==', true)
+        );
+        const checkedItemsSnapshot = await getDocs(checkedItemsQuery);
+        const batch = writeBatch(db);
+        checkedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
+        await batch.commit();
+      } catch (error) {
+        console.log('Error deleting checked items:', error);
+        // Handle error if needed
+      }
     }
   };
 
@@ -178,58 +245,56 @@ export default function GroceryList() {
         .filter((item) => !item.isChecked)
         .map((item) => (
           <div key={item.id} className="flex items-center justify-between mb-2">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center flex-grow">
               <input
                 type="checkbox"
                 checked={item.isChecked}
                 className="rounded-full h-6 w-6 border-gray-700 border-2 mr-4 mb-2"
                 onChange={() => handleToggleItem(item.id, item.isChecked)}
               />
-              <div>
-                {editItemId === item.id ? (
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="text"
-                      value={editItemName}
-                      onChange={(e) => setEditItemName(e.target.value)}
-                      className="rounded border-gray-700 border-2 px-2 py-1 text-gray-800"
-                    />
-                    <button
-                      onClick={() => handleSaveEdit(item.id)}
-                      className="text-2xl text-green-500 cursor-pointer hover:text-green-100"
-                    >
-                      <IoCheckmarkOutline />
-                    </button>
-                    <button
-                      onClick={handleCancelEdit}
-                      className="text-2xl text-red-500 cursor-pointer hover:text-red-100"
-                    >
-                      <IoCloseCircleOutline />
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <span className="text-gray-100 text-2xl self-start">
-                      {item.name}
-                    </span>
-                  </div>
-                )}
-              </div>
+              {editItemId === item.id ? (
+                <div className="flex items-center gap-4">
+                  <input
+                    type="text"
+                    value={editItemName}
+                    onChange={(e) => setEditItemName(e.target.value)}
+                    className="rounded border-gray-700 border-2 px-2 py-1 text-gray-800"
+                  />
+                  <button
+                    onClick={() => handleSaveEdit(item.id)}
+                    className="text-2xl text-green-500 cursor-pointer hover:text-green-100"
+                  >
+                    <IoCheckmarkOutline />
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="text-2xl text-red-500 cursor-pointer hover:text-red-100"
+                  >
+                    <IoCloseCircleOutline />
+                  </button>
+                </div>
+              ) : (
+                <span className="text-gray-100 text-2xl self-start flex-grow">
+                  {item.name}
+                </span>
+              )}
             </div>
-            <div className="flex items-center gap-4">
-              <div
-                onClick={() => handleEditItem(item.id, item.name)}
-                className="text-2xl text-blue-500 cursor-pointer hover:text-blue-100"
-              >
-                <IoCreateOutline />
+            {editItemId !== item.id && (
+              <div className="flex items-center gap-4">
+                <div
+                  onClick={() => handleEditItem(item.id, item.name)}
+                  className="text-2xl text-blue-500 cursor-pointer hover:text-blue-100"
+                >
+                  <IoCreateOutline />
+                </div>
+                <div
+                  onClick={() => handleDeleteItem(item.id)}
+                  className="text-2xl text-yellow-500 cursor-pointer hover:text-yellow-100"
+                >
+                  <IoTrashOutline />
+                </div>
               </div>
-              <div
-                onClick={() => handleDeleteItem(item.id)}
-                className="text-2xl text-yellow-500 cursor-pointer hover:text-yellow-100"
-              >
-                <IoTrashOutline />
-              </div>
-            </div>
+            )}
           </div>
         ))}
 
@@ -248,28 +313,56 @@ export default function GroceryList() {
       </div>
       {cartItems.map((item) => (
         <div key={item.id} className="flex items-center justify-between mb-2">
-          <div>
+          <div className="flex flex-row items-center flex-grow">
             <input
               type="checkbox"
               className="rounded-full h-6 w-6 text-yellow-500 border-2 mr-4 mb-2"
               checked={item.isChecked}
               onChange={() => handleToggleItem(item.id, item.isChecked)}
             />
-            <span className="text-gray-100 text-2xl self-start">
-              {item.name}
-            </span>
+            {editItemId === item.id ? (
+              <div className="flex items-center gap-4">
+                <input
+                  type="text"
+                  value={editItemName}
+                  onChange={(e) => setEditItemName(e.target.value)}
+                  className="rounded border-gray-700 border-2 px-2 py-1 text-gray-800"
+                />
+                <button
+                  onClick={() => handleSaveEdit(item.id)}
+                  className="text-2xl text-green-500 cursor-pointer hover:text-green-100"
+                >
+                  <IoCheckmarkOutline />
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className="text-2xl text-red-500 cursor-pointer hover:text-red-100"
+                >
+                  <IoCloseCircleOutline />
+                </button>
+              </div>
+            ) : (
+              <span className="text-gray-100 text-2xl self-start flex-grow">
+                {item.name}
+              </span>
+            )}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="text-2xl text-blue-500 cursor-pointer hover:text-blue-100">
-              <IoCreateOutline />
+          {editItemId !== item.id && (
+            <div className="flex items-center gap-4">
+              <div
+                onClick={() => handleEditItem(item.id, item.name)}
+                className="text-2xl text-blue-500 cursor-pointer hover:text-blue-100"
+              >
+                <IoCreateOutline />
+              </div>
+              <div
+                onClick={() => handleDeleteItem(item.id)}
+                className="text-2xl text-yellow-500 cursor-pointer hover:text-yellow-100"
+              >
+                <IoTrashOutline />
+              </div>
             </div>
-            <div
-              onClick={() => handleDeleteItem(item.id)}
-              className="text-2xl text-yellow-500 cursor-pointer hover:text-yellow-100"
-            >
-              <IoTrashOutline />
-            </div>
-          </div>
+          )}
         </div>
       ))}
     </div>
