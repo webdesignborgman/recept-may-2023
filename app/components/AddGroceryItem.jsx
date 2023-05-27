@@ -22,15 +22,53 @@ export default function AddGroceryItem() {
         isChecked: false,
       };
 
-      await addDoc(
-        collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-        groceryItem
-      );
+      let groceryListCollection;
+      if (
+        currentUser.uid === 'OwsVYkKXwSOgBfgZbBMC7qQ3enB2' ||
+        currentUser.uid === 'VuzhiNXWcsforAjn31fwwROSQ2B3'
+      ) {
+        groceryListCollection = collection(
+          db,
+          'groceryLists',
+          'sharedList',
+          'groceries'
+        );
+      } else {
+        groceryListCollection = collection(
+          db,
+          'groceryLists',
+          currentUser.uid,
+          'groceries'
+        );
+      }
+
+      await addDoc(groceryListCollection, groceryItem);
       setItemName('');
     } catch (error) {
       console.error('Error adding grocery item:', error);
     }
   };
+
+  // const handleAddItem = async () => {
+  //   if (itemName.trim() === '') {
+  //     return;
+  //   }
+
+  //   try {
+  //     const groceryItem = {
+  //       name: itemName.trim(),
+  //       isChecked: false,
+  //     };
+
+  //     await addDoc(
+  //       collection(db, 'groceryLists', currentUser.uid, 'groceries'),
+  //       groceryItem
+  //     );
+  //     setItemName('');
+  //   } catch (error) {
+  //     console.error('Error adding grocery item:', error);
+  //   }
+  // };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
