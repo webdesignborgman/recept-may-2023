@@ -57,7 +57,6 @@ const WeekMenu = () => {
         <div>
           <hr className="w-full border-1 border-gray-600" />
           <div key={weekMenu.id} className="flex flex-row">
-            {/* <div className="w-3/12">{weekMenu.dag}</div> */}
             <div className="w-3/12">
               <input
                 type="text"
