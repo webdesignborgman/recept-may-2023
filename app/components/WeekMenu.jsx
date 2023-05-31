@@ -63,7 +63,7 @@ const WeekMenu = () => {
                 value={weekMenu.dag}
                 disabled
                 onChange={(event) => handleDienstChange(event, weekMenu.id)}
-                className="bg-gray-700 border-none pl-0 w-15"
+                className="bg-gray-700 border-none px-0 mx-0 z-0"
               />
             </div>
             <div className="w-2/12">
@@ -71,7 +71,7 @@ const WeekMenu = () => {
                 type="text"
                 value={weekMenu.dienst}
                 onChange={(event) => handleDienstChange(event, weekMenu.id)}
-                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 w-15 pl-0"
+                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 w-15 px-0 z-1"
               />
             </div>
             <div className="w-7/12">
@@ -79,7 +79,7 @@ const WeekMenu = () => {
                 value={weekMenu.maaltijd}
                 onChange={(event) => handleMaaltijdChange(event, weekMenu.id)}
                 rows={2}
-                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0"
+                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0 z-2"
               />
             </div>
           </div>
