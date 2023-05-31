@@ -24,6 +24,7 @@ import {
   IoCloseCircleOutline,
 } from 'react-icons/io5';
 import AddGroceryItem from '../components/AddGroceryItem';
+import WeekMenu from './WeekMenu';
 
 export default function GroceryList() {
   const { currentUser } = useAuth();
@@ -31,6 +32,11 @@ export default function GroceryList() {
   const [cartItems, setCartItems] = useState([]);
   const [editItemId, setEditItemId] = useState(null);
   const [editItemName, setEditItemName] = useState('');
+  const [openWeekMenu, setOpenWeekMenu] = useState(false);
+
+  const handleOpenWeekMenu = () => {
+    setOpenWeekMenu(!openWeekMenu);
+  };
 
   const handleEditItem = (itemId, itemName) => {
     setEditItemId(itemId);
@@ -303,6 +309,26 @@ export default function GroceryList() {
     return (
       <div className="bg-gray-700 p-4 rounded">
         <AddGroceryItem />
+        {/* Open weekmenu alleen voor selected users */}
+        <div>
+          {currentUser.uid === 'OwsVYkKXwSOgBfgZbBMC7qQ3enB2' ||
+          currentUser.uid === 'VuzhiNXWcsforAjn31fwwROSQ2B3' ? (
+            <button
+              onClick={handleOpenWeekMenu}
+              className="py-2 px-2  text-gray-200 bg-gray-500 hover:bg-gray-600 hover:text-gray-100 font-semibold rounded-lg shadow-md text-xs"
+            >
+              {openWeekMenu ? (
+                <div className="">
+                  <IoCloseCircleOutline className="text-3xl text-gray-100" />
+                </div>
+              ) : (
+                'Weekmenu'
+              )}
+            </button>
+          ) : null}
+
+          {openWeekMenu && <WeekMenu />}
+        </div>
         <div className="flex items-center w-full my-4">
           <hr className="w-full border-gray-500" />
         </div>
@@ -374,11 +400,9 @@ export default function GroceryList() {
               )}
             </div>
           ))}
-
         <div className="flex items-center w-full my-4">
           <hr className="w-full border-gray-500" />
         </div>
-
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-gray-100 text-2xl mb-4">In de kar</h2>
           <span

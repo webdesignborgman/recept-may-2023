@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import WeekMenu from '../components/WeekMenu';
+import WeekMenu from '../components/WeekMenu-copy';
 
 export default function weekMenupage() {
   return (
