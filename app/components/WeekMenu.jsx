@@ -29,6 +29,10 @@ const WeekMenu = () => {
     return unsubscribe;
   }, []);
 
+  const handleDagChange = (event, id) => {
+    console.log(event.target.value);
+  };
+
   const handleDienstChange = async (event, id) => {
     const { value } = event.target;
     const weekMenuRef = doc(db, 'weekMenus', id);
@@ -62,8 +66,8 @@ const WeekMenu = () => {
                 type="text"
                 value={weekMenu.dag}
                 disabled
-                onChange={(event) => handleDienstChange(event, weekMenu.id)}
-                className="bg-gray-700 border-none px-0 mx-0 z-0"
+                onChange={(event) => handleDagChange(event, weekMenu.dag)}
+                className="bg-gray-700 border-none px-0 mx-0 z-0 w-15"
               />
             </div>
             <div className="w-2/12">
@@ -71,7 +75,7 @@ const WeekMenu = () => {
                 type="text"
                 value={weekMenu.dienst}
                 onChange={(event) => handleDienstChange(event, weekMenu.id)}
-                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 w-15 px-0 z-1"
+                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 w-15 px-0 z-10"
               />
             </div>
             <div className="w-7/12">
@@ -79,7 +83,7 @@ const WeekMenu = () => {
                 value={weekMenu.maaltijd}
                 onChange={(event) => handleMaaltijdChange(event, weekMenu.id)}
                 rows={2}
-                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0 z-2"
+                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0 z-20"
               />
             </div>
           </div>
