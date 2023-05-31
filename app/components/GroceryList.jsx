@@ -60,14 +60,6 @@ export default function GroceryList() {
         itemId
       );
     }
-    // const handleSaveEdit = async (itemId) => {
-    //   const groceryItemRef = doc(
-    //     db,
-    //     'groceryLists',
-    //     currentUser.uid,
-    //     'groceries',
-    //     itemId
-    //   );
 
     const handleSaveEdit = async (itemId) => {
       let groceryItemRef;
@@ -104,24 +96,6 @@ export default function GroceryList() {
       setEditItemId(null);
       setEditItemName('');
     };
-
-    // const handleSaveEdit = async (itemId) => {
-    //   // Update the item in the database with the new name
-    //   const groceryItemRef = doc(
-    //     db,
-    //     'groceryLists',
-    //     currentUser.uid,
-    //     'groceries',
-    //     itemId
-    //   );
-    //   await updateDoc(groceryItemRef, {
-    //     name: editItemName,
-    //   });
-
-    //   // Clear the edit state
-    //   setEditItemId(null);
-    //   setEditItemName('');
-    // };
 
     const handleCancelEdit = () => {
       // Clear the edit state
@@ -177,40 +151,6 @@ export default function GroceryList() {
     }
   };
 
-  // const handleDeleteItem = async (itemId) => {
-  //   try {
-  //     const groceryItemRef = doc(
-  //       db,
-  //       'groceryLists',
-  //       currentUser.uid,
-  //       'groceries',
-  //       itemId
-  //     );
-
-  //     // Delete the document from Firestore
-  //     await deleteDoc(groceryItemRef);
-  //   } catch (error) {
-  //     console.log('Error deleting grocery item:', error);
-  //     // Handle error if needed
-  //   }
-  // };
-
-  // const handleDeleteUncheckedItems = async () => {
-  //   try {
-  //     const uncheckedItemsQuery = query(
-  //       collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-  //       where('isChecked', '==', false)
-  //     );
-  //     const uncheckedItemsSnapshot = await getDocs(uncheckedItemsQuery);
-  //     const batch = writeBatch(db);
-  //     uncheckedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
-  //     await batch.commit();
-  //   } catch (error) {
-  //     console.log('Error deleting unchecked items:', error);
-  //     // Handle error if needed
-  //   }
-  // };
-
   const handleDeleteUncheckedItems = async () => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete all unchecked items?'
@@ -247,44 +187,6 @@ export default function GroceryList() {
       }
     }
   };
-
-  // const handleDeleteUncheckedItems = async () => {
-  //   const confirmDelete = window.confirm(
-  //     'Are you sure you want to delete all unchecked items?'
-  //   );
-
-  //   if (confirmDelete) {
-  //     try {
-  //       const uncheckedItemsQuery = query(
-  //         collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-  //         where('isChecked', '==', false)
-  //       );
-  //       const uncheckedItemsSnapshot = await getDocs(uncheckedItemsQuery);
-  //       const batch = writeBatch(db);
-  //       uncheckedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
-  //       await batch.commit();
-  //     } catch (error) {
-  //       console.log('Error deleting unchecked items:', error);
-  //       // Handle error if needed
-  //     }
-  //   }
-  // };
-
-  // const handleDeleteCheckedItems = async () => {
-  //   try {
-  //     const checkedItemsQuery = query(
-  //       collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-  //       where('isChecked', '==', true)
-  //     );
-  //     const checkedItemsSnapshot = await getDocs(checkedItemsQuery);
-  //     const batch = writeBatch(db);
-  //     checkedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
-  //     await batch.commit();
-  //   } catch (error) {
-  //     console.log('Error deleting checked items:', error);
-  //     // Handle error if needed
-  //   }
-  // };
 
   const handleDeleteCheckedItems = async () => {
     const confirmDelete = window.confirm(
@@ -323,27 +225,6 @@ export default function GroceryList() {
     }
   };
 
-  // const handleDeleteCheckedItems = async () => {
-  //   const confirmDelete = window.confirm(
-  //     'Are you sure you want to delete all checked items?'
-  //   );
-  //   if (confirmDelete) {
-  //     try {
-  //       const checkedItemsQuery = query(
-  //         collection(db, 'groceryLists', currentUser.uid, 'groceries'),
-  //         where('isChecked', '==', true)
-  //       );
-  //       const checkedItemsSnapshot = await getDocs(checkedItemsQuery);
-  //       const batch = writeBatch(db);
-  //       checkedItemsSnapshot.forEach((doc) => batch.delete(doc.ref));
-  //       await batch.commit();
-  //     } catch (error) {
-  //       console.log('Error deleting checked items:', error);
-  //       // Handle error if needed
-  //     }
-  //   }
-  // };
-
   const handleToggleItem = async (itemId, isChecked) => {
     let groceryItemRef;
 
@@ -375,19 +256,6 @@ export default function GroceryList() {
     });
   };
 
-  // const handleToggleItem = async (itemId, isChecked) => {
-  //   const groceryItemRef = doc(
-  //     db,
-  //     'groceryLists',
-  //     currentUser.uid,
-  //     'groceries',
-  //     itemId
-  //   );
-  //   await updateDoc(groceryItemRef, {
-  //     isChecked: !isChecked,
-  //   });
-  // };
-
   useEffect(() => {
     const filteredItems = groceryItems.filter((item) => item.isChecked);
     setCartItems(filteredItems);
@@ -412,22 +280,6 @@ export default function GroceryList() {
       return () => unsubscribe();
     }
   }, [currentUser]);
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     const unsubscribe = onSnapshot(
-  //       query(collection(db, 'groceryLists', currentUser.uid, 'groceries')),
-  //       (snapshot) => {
-  //         const items = snapshot.docs.map((doc) => ({
-  //           id: doc.id,
-  //           ...doc.data(),
-  //         }));
-  //         setGroceryItems(items);
-  //       }
-  //     );
-
-  //     return () => unsubscribe();
-  //   }
-  // }, [currentUser]);
 
   if (!currentUser) {
     return (
@@ -447,16 +299,6 @@ export default function GroceryList() {
         </Link>
       </div>
     );
-    // } else if (
-    //   currentUser.uid === 'VuzhiNXWcsforAjn31fwwROSQ2B3' ||
-    //   currentUser.uid === 'OwsVYkKXwSOgBfgZbBMC7qQ3enB2'
-    // ) {
-    //   return (
-    //     <div className="flex flex-col items-center justify-center my-5">
-    //       <h1>SharedList</h1>
-    //     </div>
-    //   );
-    //
   } else {
     return (
       <div className="bg-gray-700 p-4 rounded">
