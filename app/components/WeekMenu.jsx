@@ -63,7 +63,7 @@ const WeekMenu = () => {
                 value={weekMenu.dag}
                 disabled
                 onChange={(event) => handleDienstChange(event, weekMenu.id)}
-                className="bg-gray-700 border-none pl-0"
+                className="bg-gray-700 border-none pl-0 w-15"
               />
             </div>
             <div className="w-2/12">
