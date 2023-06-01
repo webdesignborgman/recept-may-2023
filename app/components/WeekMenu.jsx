@@ -46,46 +46,33 @@ const WeekMenu = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex justify-center items-center">
-        <div className="text-xl font-bold mb-3">WeekMenu</div>
-      </div>
+    <div className="grid grid-cols-12 gap-4">
+      <div className="col-span-12">WeekMenu</div>
 
-      <div className="flex flex-row font-bold mb-3">
-        <div className="w-3/12 text-left">Dag</div>
-        <div className="w-2/12 text-left">Dienst</div>
-        <div className="w-7/12 text-left">Maaltijd</div>
-      </div>
+      <div className="col-span-3">Dag</div>
+      <div className="col-span-2 col-start-4">Dienst</div>
+      <div className="col-span-7">Maaltijd</div>
 
       {weekMenus.map((weekMenu) => (
-        <div key={weekMenu.id}>
-          <hr className="w-full border-1 border-gray-600" />
-          <div key={weekMenu.id} className="flex flex-row">
-            <div className="w-3/12">
-              <input
-                type="text"
-                value={weekMenu.dag}
-                disabled
-                onChange={(event) => handleDagChange(event, weekMenu.dag)}
-                className="bg-gray-700 border-none px-0 mx-0 z-0 w-15"
-              />
-            </div>
-            <div className="w-2/12">
-              <input
-                type="text"
-                value={weekMenu.dienst}
-                onChange={(event) => handleDienstChange(event, weekMenu.id)}
-                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 w-15 px-0 z-10"
-              />
-            </div>
-            <div className="w-7/12">
-              <textarea
-                value={weekMenu.maaltijd}
-                onChange={(event) => handleMaaltijdChange(event, weekMenu.id)}
-                rows={2}
-                className="bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0 z-20"
-              />
-            </div>
+        <div key={weekMenu.id} className="col-span-12 grid grid-cols-12">
+          <div className="col-span-3 pt-1.5">{weekMenu.dag}</div>
+
+          <div className="col-span-2 col-start-4">
+            <input
+              type="text"
+              // maxLength={3}
+              value={weekMenu.dienst}
+              onChange={(event) => handleDienstChange(event, weekMenu.id)}
+              className="w-14 bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0"
+            />
+          </div>
+          <div className="col-span-7">
+            <textarea
+              value={weekMenu.maaltijd}
+              onChange={(event) => handleMaaltijdChange(event, weekMenu.id)}
+              rows={2}
+              className="w-full bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0"
+            />
           </div>
         </div>
       ))}
