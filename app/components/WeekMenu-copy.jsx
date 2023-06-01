@@ -1,5 +1,5 @@
 /** @format */
-
+// Copy of working weekmenu in FcGrid, before starting droppable shit
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -29,6 +29,10 @@ const WeekMenu = () => {
     return unsubscribe;
   }, []);
 
+  const handleDagChange = (event, id) => {
+    console.log(event.target.value);
+  };
+
   const handleDienstChange = async (event, id) => {
     const { value } = event.target;
     const weekMenuRef = doc(db, 'weekMenus', id);
@@ -42,17 +46,19 @@ const WeekMenu = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-12">WeekMenu</div>
+    <div className="grid grid-cols-12 gap-4 ">
+      <div className="col-span-12 py-4 text-xl font-bold text-center border-yellow-500 border-b-2">
+        WeekMenu
+      </div>
 
       <div className="col-span-3">Dag</div>
-      <div className="col-span-2 col-start-4 pl-1.5">Dienst</div>
-      <div className="col-span-7 pl-1.5">Maaltijd</div>
-
+      <div className="col-span-2 col-start-4">Dienst</div>
+      <div className="col-span-7">Maaltijd</div>
+      <div className="col-span-12 border-yellow-50 border-b-2"></div>
       {weekMenus.map((weekMenu) => (
         <div
           key={weekMenu.id}
-          className="col-span-12 grid grid-cols-12 divide-y divide-gray-500"
+          className="col-span-12 grid grid-cols-12 border-gray-600 border-b-2"
         >
           <div className="col-span-3 pt-1.5">{weekMenu.dag}</div>
 
@@ -62,7 +68,7 @@ const WeekMenu = () => {
               // maxLength={3}
               value={weekMenu.dienst}
               onChange={(event) => handleDienstChange(event, weekMenu.id)}
-              className="w-14 bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              className="w-14 bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0.5"
             />
           </div>
           <div className="col-span-7">
@@ -70,7 +76,7 @@ const WeekMenu = () => {
               value={weekMenu.maaltijd}
               onChange={(event) => handleMaaltijdChange(event, weekMenu.id)}
               rows={2}
-              className="w-full bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              className="w-full bg-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-yellow-500 pl-0.5"
             />
           </div>
         </div>
