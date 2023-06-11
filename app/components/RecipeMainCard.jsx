@@ -1,6 +1,9 @@
 /** @format */
 
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
 
 const styles = {
   container: `max-w-md w-full mx-auto bg-gray-700 p-4  mx-auto flex flex-col relative`,
@@ -11,6 +14,8 @@ const styles = {
 
 function RecipeMainCard(recipe) {
   // console.log(recipe);
+  const [loading, setLoading] = useState(true);
+
   return (
     <div className={styles.container}>
       <div className={styles.picframe}>
@@ -19,7 +24,12 @@ function RecipeMainCard(recipe) {
           width={300}
           height={300}
           alt="Photo of dish"
-          // placeholder="blur"
+          className={`object-contain duration-300 ease-in ${
+            loading
+              ? 'scale-80 blur-lg grayscale'
+              : 'scale-100 blur-0 grayscale-0'
+          }`}
+          onLoadingComplete={() => setLoading(false)}
         />
       </div>
       <div className={styles.divtitle}>
