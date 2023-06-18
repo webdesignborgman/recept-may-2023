@@ -24,7 +24,7 @@ function RecipeMainCard(recipe) {
           width={300}
           height={300}
           alt="Photo of dish"
-          className={`object-contain duration-300 ease-in ${
+          className={`object-contain duration-600 ease-in ${
             loading
               ? 'scale-80 blur-lg grayscale'
               : 'scale-100 blur-0 grayscale-0'
