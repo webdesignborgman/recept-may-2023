@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import UserDashboard from '../components/UserDashBoard';
+import AddRecipeForm from '../components/AddRecipeForm';
 import { useAuth } from '../firebase/AuthContext';
 
 export default function UserPage() {
