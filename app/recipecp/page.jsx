@@ -4,7 +4,7 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function recipeControlPanel() {
+export default function RecipeControlPanel() {
   const router = useRouter();
 
   return (
