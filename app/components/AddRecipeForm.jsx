@@ -55,27 +55,42 @@ const RecipeForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="recipeTitle">Recipe Title:</label>
-        <input
-          type="text"
-          id="recipeTitle"
-          value={recipeTitle}
-          onChange={(e) => setRecipeTitle(e.target.value)}
-          required
-        />
-      </div>
+    <div className="flex flex-col items-center bg-gray-700 max-w-sm mx-auto pt-4">
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label className="text-yellow-500" htmlFor="recipeTitle">
+            Recipe Title:
+          </label>
+        </div>
+        <div>
+          <input
+            className="my-2 bg-gray-500 focus:bg-gray-700 p-2 rounded  focus:border-yellow-500 text-gray-900 focus:text-gray-200 border-2 focus:ring-0"
+            type="text"
+            id="recipeTitle"
+            value={recipeTitle}
+            onChange={(e) => setRecipeTitle(e.target.value)}
+            required
+          />
+        </div>
 
-      {/* Similar divs for recipeDescription, servingSize, course, ingredients, and cookingSteps... */}
+        <div>
+          <label className="text-yellow-500" htmlFor="image">
+            Upload Image:
+          </label>
+        </div>
+        <div>
+          <input
+            className="my-2 bg-blue-500"
+            type="file"
+            id="image"
+            onChange={handleImageChange}
+            required
+          />
+        </div>
 
-      <div>
-        <label htmlFor="image">Upload Image:</label>
-        <input type="file" id="image" onChange={handleImageChange} required />
-      </div>
-
-      <button type="submit">Add Recipe</button>
-    </form>
+        <button type="submit">Add Recipe</button>
+      </form>
+    </div>
   );
 };
 
