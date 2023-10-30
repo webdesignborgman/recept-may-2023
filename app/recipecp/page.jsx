@@ -8,7 +8,7 @@ export default function RecipeControlPanel() {
   const router = useRouter();
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <div className="text-yellow-500 font-bold text-3xl text-center my-4 max-w-md w-full mx-auto">
         Recipe Control Panel
       </div>
