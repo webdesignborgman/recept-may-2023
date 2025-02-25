@@ -14,21 +14,15 @@ const RecipeForm = () => {
   const [recipeDescription, setRecipeDescription] = useState('');
   const [servingSize, setServingSize] = useState('');
   const [course, setCourse] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [cookingSteps, setCookingSteps] = useState('');
+
+  // Ingredients and Cooking Steps stored as arrays.
+  const [ingredients, setIngredients] = useState(['']);
+  const [cookingSteps, setCookingSteps] = useState(['']);
 
   // Image & Crop states
   const [upImg, setUpImg] = useState(null); // Data URL for preview
   const imgRef = useRef(null);
-  // Set initial crop state with fixed dimensions (300x300)
-  const [crop, setCrop] = useState({
-    unit: 'px',
-    width: 300,
-    height: 300,
-    x: 0,
-    y: 0,
-    aspect: 1,
-  });
+  const [crop, setCrop] = useState({ unit: 'px', width: 300, height: 300, x: 0, y: 0, aspect: 1 });
   const [completedCrop, setCompletedCrop] = useState(null);
   const [croppedBlob, setCroppedBlob] = useState(null);
 
@@ -57,13 +51,10 @@ const RecipeForm = () => {
     }
     const image = imgRef.current;
     const canvas = document.createElement('canvas');
-
-    // We want the output image to be fixed at 300x300 pixels
     const fixedWidth = 300;
     const fixedHeight = 300;
     canvas.width = fixedWidth;
     canvas.height = fixedHeight;
-    
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
     const ctx = canvas.getContext('2d');
@@ -94,6 +85,39 @@ const RecipeForm = () => {
     });
   };
 
+  // Ingredient handlers
+  const handleIngredientChange = (e, index) => {
+    const newIngredients = [...ingredients];
+    newIngredients[index] = e.target.value;
+    setIngredients(newIngredients);
+  };
+
+  const handleAddIngredient = () => {
+    setIngredients([...ingredients, '']);
+  };
+
+  const handleRemoveIngredient = (index) => {
+    // Prevent removing the first ingredient.
+    if (index === 0) return;
+    setIngredients(ingredients.filter((_, i) => i !== index));
+  };
+
+  // Cooking step handlers
+  const handleCookingStepChange = (e, index) => {
+    const newSteps = [...cookingSteps];
+    newSteps[index] = e.target.value;
+    setCookingSteps(newSteps);
+  };
+
+  const handleAddCookingStep = () => {
+    setCookingSteps([...cookingSteps, '']);
+  };
+
+  const handleRemoveCookingStep = (index) => {
+    if (index === 0) return;
+    setCookingSteps(cookingSteps.filter((_, i) => i !== index));
+  };
+
   // Handle form submission: upload cropped image and add recipe document
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +132,7 @@ const RecipeForm = () => {
     await uploadBytes(storageRef, croppedBlob);
     const imageUrl = await getDownloadURL(storageRef);
 
-    // Add new recipe to Firestore
+    // Add new recipe to Firestore, including ingredients and cooking steps arrays
     await addDoc(collection(db, 'recipe'), {
       recipeTitle,
       recipeDescription,
@@ -125,8 +149,8 @@ const RecipeForm = () => {
     setRecipeDescription('');
     setServingSize('');
     setCourse('');
-    setIngredients('');
-    setCookingSteps('');
+    setIngredients(['']);
+    setCookingSteps(['']);
     setUpImg(null);
     setCroppedBlob(null);
   };
@@ -136,9 +160,7 @@ const RecipeForm = () => {
       <form onSubmit={handleSubmit}>
         {/* Recipe Title */}
         <div>
-          <label className="text-yellow-500" htmlFor="recipeTitle">
-            Recipe Title:
-          </label>
+          <label className="text-yellow-500" htmlFor="recipeTitle">Recipe Title:</label>
           <input
             className="my-2 w-full bg-gray-500 p-2 rounded text-yellow-100"
             type="text"
@@ -150,9 +172,7 @@ const RecipeForm = () => {
         </div>
         {/* Recipe Description */}
         <div>
-          <label className="text-yellow-500" htmlFor="recipeDescription">
-            Recipe Description:
-          </label>
+          <label className="text-yellow-500" htmlFor="recipeDescription">Recipe Description:</label>
           <input
             className="my-2 w-full bg-gray-500 p-2 rounded text-yellow-100"
             type="text"
@@ -164,9 +184,7 @@ const RecipeForm = () => {
         </div>
         {/* Serving Size */}
         <div>
-          <label className="text-yellow-500" htmlFor="servingSize">
-            Recipe Serving Size:
-          </label>
+          <label className="text-yellow-500" htmlFor="servingSize">Recipe Serving Size:</label>
           <input
             className="my-2 w-14 bg-gray-500 p-2 rounded text-yellow-100"
             type="number"
@@ -178,9 +196,7 @@ const RecipeForm = () => {
         </div>
         {/* Course Selection */}
         <div>
-          <label className="text-yellow-500" htmlFor="course">
-            Course:
-          </label>
+          <label className="text-yellow-500" htmlFor="course">Course:</label>
           <select
             id="course"
             value={course}
@@ -198,20 +214,90 @@ const RecipeForm = () => {
           </select>
         </div>
 
+        {/* Dynamic Ingredients List */}
+        <div>
+          <label className="text-yellow-500">Ingredients:</label>
+          {ingredients.map((ingredient, index) => (
+            <div key={index} className="flex items-center my-2">
+              <input
+                type="text"
+                value={ingredient}
+                onChange={(e) => handleIngredientChange(e, index)}
+                className="w-full bg-gray-500 p-2 rounded text-yellow-100"
+                placeholder="Enter ingredient"
+                required
+              />
+              <div className="ml-2 flex">
+                {/* Plus icon on last ingredient */}
+                {index === ingredients.length - 1 && (
+                  <button
+                    type="button"
+                    onClick={handleAddIngredient}
+                    className="px-2 py-1 bg-green-500 rounded text-white"
+                  >
+                    +
+                  </button>
+                )}
+                {/* Minus icon on all but the first ingredient */}
+                {index !== 0 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveIngredient(index)}
+                    className="px-2 py-1 bg-red-500 rounded text-white ml-1"
+                  >
+                    -
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Dynamic Cooking Steps List */}
+        <div>
+          <label className="text-yellow-500">Cooking Steps:</label>
+          {cookingSteps.map((step, index) => (
+            <div key={index} className="flex items-center my-2">
+              <input
+                type="text"
+                value={step}
+                onChange={(e) => handleCookingStepChange(e, index)}
+                className="w-full bg-gray-500 p-2 rounded text-yellow-100"
+                placeholder="Enter cooking step"
+                required
+              />
+              <div className="ml-2 flex">
+                {index === cookingSteps.length - 1 && (
+                  <button
+                    type="button"
+                    onClick={handleAddCookingStep}
+                    className="px-2 py-1 bg-green-500 rounded text-white"
+                  >
+                    +
+                  </button>
+                )}
+                {index !== 0 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveCookingStep(index)}
+                    className="px-2 py-1 bg-red-500 rounded text-white ml-1"
+                  >
+                    -
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Optional preview of the raw uploaded image */}
         {upImg && (
-          <img
-            src={upImg}
-            alt="Preview"
-            style={{ maxWidth: '300px', marginBottom: '1rem' }}
-          />
+          <img src={upImg} alt="Preview" style={{ maxWidth: '300px', marginBottom: '1rem' }} />
         )}
 
         {/* Image Upload */}
         <div>
-          <label className="text-yellow-500" htmlFor="image">
-            Upload Image:
-          </label>
+          <label className="text-yellow-500" htmlFor="image">Upload Image:</label>
           <input
             className="my-2 bg-blue-500"
             type="file"
@@ -228,7 +314,7 @@ const RecipeForm = () => {
             <ReactCrop
               crop={crop}
               onChange={(newCrop) => {
-                // Force the width and height to remain 300px
+                // Force crop to remain fixed at 300x300
                 setCrop({ ...newCrop, unit: 'px', width: 300, height: 300, aspect: 1 });
                 console.log('Crop changed:', newCrop);
               }}
@@ -236,8 +322,6 @@ const RecipeForm = () => {
                 setCompletedCrop(c);
                 console.log('Crop complete:', c);
               }}
-              // Using onImageLoaded on the ReactCrop component can also be done,
-              // but here we attach onLoad directly to the <img> to ensure the ref is set.
             >
               <img
                 src={upImg}
