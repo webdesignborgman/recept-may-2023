@@ -202,11 +202,6 @@ const RecipeForm = () => {
         {upImg && (
           <div>
             <ReactCrop
-              src={upImg}
-              onImageLoaded={(img) => {
-                imgRef.current = img;
-                console.log('Image loaded:', img);
-              }}
               crop={crop}
               onChange={(newCrop) => {
                 setCrop(newCrop);
@@ -216,8 +211,10 @@ const RecipeForm = () => {
                 setCompletedCrop(c);
                 console.log('Crop complete:', c);
               }}
-              ruleOfThirds
-            />
+              onImageLoaded={onLoad}
+            >
+              <img src={upImg} alt="Crop me" style={{ maxWidth: '100%' }} />
+            </ReactCrop>
             <button
               type="button"
               onClick={generateCroppedImage}
