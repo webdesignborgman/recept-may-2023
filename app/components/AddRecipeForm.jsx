@@ -20,7 +20,15 @@ const RecipeForm = () => {
   // Image & Crop states
   const [upImg, setUpImg] = useState(null); // Data URL for preview
   const imgRef = useRef(null);
-  const [crop, setCrop] = useState({ unit: '%', width: 50, aspect: 1 });
+  // Set initial crop state with fixed dimensions (300x300)
+  const [crop, setCrop] = useState({
+    unit: 'px',
+    width: 300,
+    height: 300,
+    x: 0,
+    y: 0,
+    aspect: 1,
+  });
   const [completedCrop, setCompletedCrop] = useState(null);
   const [croppedBlob, setCroppedBlob] = useState(null);
 
@@ -49,20 +57,17 @@ const RecipeForm = () => {
     }
     const image = imgRef.current;
     const canvas = document.createElement('canvas');
-    
-    // Define your fixed output dimensions
+
+    // We want the output image to be fixed at 300x300 pixels
     const fixedWidth = 300;
     const fixedHeight = 300;
     canvas.width = fixedWidth;
     canvas.height = fixedHeight;
     
-    // Calculate scaling factors from the original image to the crop
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    
     const ctx = canvas.getContext('2d');
-  
-    // Draw the cropped area, scaled to the fixed output size
+
     ctx.drawImage(
       image,
       completedCrop.x * scaleX,
@@ -74,7 +79,7 @@ const RecipeForm = () => {
       fixedWidth,
       fixedHeight
     );
-  
+
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
         if (!blob) {
@@ -88,7 +93,6 @@ const RecipeForm = () => {
       }, 'image/jpeg');
     });
   };
-  
 
   // Handle form submission: upload cropped image and add recipe document
   const handleSubmit = async (e) => {
@@ -224,13 +228,16 @@ const RecipeForm = () => {
             <ReactCrop
               crop={crop}
               onChange={(newCrop) => {
-                setCrop(newCrop);
+                // Force the width and height to remain 300px
+                setCrop({ ...newCrop, unit: 'px', width: 300, height: 300, aspect: 1 });
                 console.log('Crop changed:', newCrop);
               }}
               onComplete={(c) => {
                 setCompletedCrop(c);
                 console.log('Crop complete:', c);
               }}
+              // Using onImageLoaded on the ReactCrop component can also be done,
+              // but here we attach onLoad directly to the <img> to ensure the ref is set.
             >
               <img
                 src={upImg}
