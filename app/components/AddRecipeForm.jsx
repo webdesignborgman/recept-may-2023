@@ -229,9 +229,8 @@ const RecipeForm = () => {
                 setCompletedCrop(c);
                 console.log('Crop complete:', c);
               }}
-              onImageLoaded={onLoad}
             >
-              <img src={upImg} alt="Crop me" style={{ maxWidth: '100%' }} />
+              <img src={upImg} onLoad={onLoad} alt="Crop me" style={{ maxWidth: '100%' }} />
             </ReactCrop>
             <button
               type="button"
