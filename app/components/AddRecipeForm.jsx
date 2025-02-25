@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -28,21 +28,13 @@ const RecipeForm = () => {
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
-      reader.addEventListener('load', () => {
+      reader.onload = () => {
         setUpImg(reader.result);
         console.log('File loaded, data URL set.');
-      });
+      };
       reader.readAsDataURL(e.target.files[0]);
     }
   };
-
-  // Use onImageLoaded on ReactCrop to get the image ref
-  const onImageLoaded = useCallback((img) => {
-    imgRef.current = img;
-    console.log('Image loaded via onImageLoaded:', img);
-    // Return false if you want to disable automatic cropping behavior
-    return false;
-  }, []);
 
   // Generate the cropped image blob from the completed crop
   const generateCroppedImage = async () => {
@@ -104,8 +96,7 @@ const RecipeForm = () => {
     const imageUrl = await getDownloadURL(storageRef);
 
     // Add new recipe to Firestore
-    const recipeCollection = collection(db, 'recipe');
-    await addDoc(recipeCollection, {
+    await addDoc(collection(db, 'recipe'), {
       recipeTitle,
       recipeDescription,
       servingSize,
@@ -231,9 +222,16 @@ const RecipeForm = () => {
                 setCompletedCrop(c);
                 console.log('Crop complete:', c);
               }}
-              onImageLoaded={onImageLoaded}
             >
-              <img src={upImg} alt="Crop me" style={{ maxWidth: '100%' }} />
+              <img
+                src={upImg}
+                alt="Crop me"
+                style={{ maxWidth: '100%' }}
+                onLoad={(e) => {
+                  imgRef.current = e.currentTarget;
+                  console.log('Image loaded via onLoad:', e.currentTarget);
+                }}
+              />
             </ReactCrop>
             <button
               type="button"
