@@ -28,7 +28,7 @@ function RecipeDetailsCard({ recipe }) {
   // Get current user from Firebase Auth
   const auth = getAuth();
   const currentUser = auth.currentUser;
-  const isOwner = currentUser && currentUser.uid === "VuzhiNXWcsforAjn31fwwROSQ2B3";
+  const isOwner = currentUser && currentUser.uid === "OwsVYkKXwSOgBfgZbBMC7qQ3enB2";
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
