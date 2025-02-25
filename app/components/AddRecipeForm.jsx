@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useCallback } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -199,23 +201,23 @@ const RecipeForm = () => {
         {/* Image Cropper Preview */}
         {upImg && (
           <div>
-<ReactCrop
-  src={upImg}
-  onImageLoaded={(img) => {
-    imgRef.current = img;
-    console.log('Image loaded:', img);
-  }}
-  crop={crop}
-  onChange={(newCrop) => {
-    setCrop(newCrop);
-    console.log('Crop changed:', newCrop);
-  }}
-  onComplete={(c) => {
-    setCompletedCrop(c);
-    console.log('Crop complete:', c);
-  }}
-  ruleOfThirds
-/>
+            <ReactCrop
+              src={upImg}
+              onImageLoaded={(img) => {
+                imgRef.current = img;
+                console.log('Image loaded:', img);
+              }}
+              crop={crop}
+              onChange={(newCrop) => {
+                setCrop(newCrop);
+                console.log('Crop changed:', newCrop);
+              }}
+              onComplete={(c) => {
+                setCompletedCrop(c);
+                console.log('Crop complete:', c);
+              }}
+              ruleOfThirds
+            />
             <button
               type="button"
               onClick={generateCroppedImage}
