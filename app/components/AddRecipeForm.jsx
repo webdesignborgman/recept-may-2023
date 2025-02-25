@@ -28,7 +28,10 @@ const RecipeForm = () => {
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
-      reader.addEventListener('load', () => setUpImg(reader.result));
+      reader.addEventListener('load', () => {
+        setUpImg(reader.result);
+        console.log('File loaded, data URL set.');
+      });
       reader.readAsDataURL(e.target.files[0]);
     }
   };
@@ -36,11 +39,18 @@ const RecipeForm = () => {
   // When the image is loaded, keep a reference for cropping
   const onLoad = useCallback((img) => {
     imgRef.current = img;
+    console.log('Image loaded in cropper:', img);
   }, []);
 
   // Generate the cropped image blob from the completed crop
   const generateCroppedImage = async () => {
+    console.log('generateCroppedImage called with completedCrop:', completedCrop);
     if (!completedCrop || !imgRef.current) {
+      console.log('No completed crop or image ref available.');
+      return;
+    }
+    if (!completedCrop.width || !completedCrop.height) {
+      console.log('Crop dimensions are zero, please select a valid crop.');
       return;
     }
     const image = imgRef.current;
@@ -70,6 +80,7 @@ const RecipeForm = () => {
           reject(new Error('Canvas is empty'));
           return;
         }
+        console.log('Cropped blob generated:', blob);
         setCroppedBlob(blob);
         resolve(blob);
       }, 'image/jpeg');
@@ -180,8 +191,15 @@ const RecipeForm = () => {
             <option value="Anders">Anders</option>
           </select>
         </div>
-        {/* Additional input fields for ingredients, cooking steps, etc. can be added similarly */}
-        {upImg && <img src={upImg} alt="Preview" style={{ maxWidth: '300px', marginBottom: '1rem' }} />}
+
+        {/* Optional preview of the raw uploaded image */}
+        {upImg && (
+          <img
+            src={upImg}
+            alt="Preview"
+            style={{ maxWidth: '300px', marginBottom: '1rem' }}
+          />
+        )}
 
         {/* Image Upload */}
         <div>
@@ -222,6 +240,18 @@ const RecipeForm = () => {
             >
               Crop Image
             </button>
+          </div>
+        )}
+
+        {/* Preview Cropped Image */}
+        {croppedBlob && (
+          <div>
+            <p className="text-yellow-500">Cropped Image Preview:</p>
+            <img
+              src={URL.createObjectURL(croppedBlob)}
+              alt="Cropped preview"
+              style={{ maxWidth: '200px', marginBottom: '1rem' }}
+            />
           </div>
         )}
 
