@@ -199,14 +199,23 @@ const RecipeForm = () => {
         {/* Image Cropper Preview */}
         {upImg && (
           <div>
-            <ReactCrop
-              src={upImg}
-              onImageLoaded={onLoad}
-              crop={crop}
-              onChange={(newCrop) => setCrop(newCrop)}
-              onComplete={(c) => setCompletedCrop(c)}
-              ruleOfThirds
-            />
+<ReactCrop
+  src={upImg}
+  onImageLoaded={(img) => {
+    imgRef.current = img;
+    console.log('Image loaded:', img);
+  }}
+  crop={crop}
+  onChange={(newCrop) => {
+    setCrop(newCrop);
+    console.log('Crop changed:', newCrop);
+  }}
+  onComplete={(c) => {
+    setCompletedCrop(c);
+    console.log('Crop complete:', c);
+  }}
+  ruleOfThirds
+/>
             <button
               type="button"
               onClick={generateCroppedImage}
