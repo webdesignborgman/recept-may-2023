@@ -49,12 +49,20 @@ const RecipeForm = () => {
     }
     const image = imgRef.current;
     const canvas = document.createElement('canvas');
+    
+    // Define your fixed output dimensions
+    const fixedWidth = 300;
+    const fixedHeight = 300;
+    canvas.width = fixedWidth;
+    canvas.height = fixedHeight;
+    
+    // Calculate scaling factors from the original image to the crop
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = completedCrop.width;
-    canvas.height = completedCrop.height;
+    
     const ctx = canvas.getContext('2d');
-
+  
+    // Draw the cropped area, scaled to the fixed output size
     ctx.drawImage(
       image,
       completedCrop.x * scaleX,
@@ -63,10 +71,10 @@ const RecipeForm = () => {
       completedCrop.height * scaleY,
       0,
       0,
-      completedCrop.width,
-      completedCrop.height
+      fixedWidth,
+      fixedHeight
     );
-
+  
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
         if (!blob) {
@@ -80,6 +88,7 @@ const RecipeForm = () => {
       }, 'image/jpeg');
     });
   };
+  
 
   // Handle form submission: upload cropped image and add recipe document
   const handleSubmit = async (e) => {
