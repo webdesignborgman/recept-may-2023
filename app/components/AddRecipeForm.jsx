@@ -179,6 +179,7 @@ const RecipeForm = () => {
           </select>
         </div>
         {/* Additional input fields for ingredients, cooking steps, etc. can be added similarly */}
+        {upImg && <img src={upImg} alt="Preview" style={{ maxWidth: '300px', marginBottom: '1rem' }} />}
 
         {/* Image Upload */}
         <div>
