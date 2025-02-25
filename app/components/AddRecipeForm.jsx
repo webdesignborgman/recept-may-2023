@@ -36,10 +36,12 @@ const RecipeForm = () => {
     }
   };
 
-  // When the image is loaded, keep a reference for cropping
-  const onLoad = useCallback((img) => {
+  // Use onImageLoaded on ReactCrop to get the image ref
+  const onImageLoaded = useCallback((img) => {
     imgRef.current = img;
-    console.log('Image loaded in cropper:', img);
+    console.log('Image loaded via onImageLoaded:', img);
+    // Return false if you want to disable automatic cropping behavior
+    return false;
   }, []);
 
   // Generate the cropped image blob from the completed crop
@@ -229,8 +231,9 @@ const RecipeForm = () => {
                 setCompletedCrop(c);
                 console.log('Crop complete:', c);
               }}
+              onImageLoaded={onImageLoaded}
             >
-              <img src={upImg} onLoad={onLoad} alt="Crop me" style={{ maxWidth: '100%' }} />
+              <img src={upImg} alt="Crop me" style={{ maxWidth: '100%' }} />
             </ReactCrop>
             <button
               type="button"
