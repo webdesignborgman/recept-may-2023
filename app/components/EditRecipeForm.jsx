@@ -149,8 +149,8 @@ const EditRecipeForm = ({ recipe }) => {
       // Optionally, add an updatedAt field.
     });
 
-    // After update, navigate to the recipe details page.
-    router.push(`/recipe/${recipe.id}`);
+    router.push(`/recipes/${recipe.id}`);
+
   };
 
   return (
