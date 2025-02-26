@@ -55,8 +55,8 @@ function RecipeDetailsCard({ recipe }) {
 
   // Edit: navigate to the edit page (assumes you have an EditRecipeForm page set up)
   const handleEdit = () => {
-    // For example, navigate to /editrecipe/[id]
-    router.push(`/editrecipe/${recipe.id}`);
+    // For example, navigate to /EditRecipeForm/[id]
+    router.push(`/EditRecipeForm/${recipe.id}`);
   };
 
   // Delete: ask for confirmation and delete the recipe document
@@ -145,12 +145,12 @@ function RecipeDetailsCard({ recipe }) {
 
       {/* Render Edit and Delete buttons only for the owner */}
       {isOwner && (
-        <div className="flex justify-end gap-4 mb-4">
+        <div className="flex justify-center gap-4 mt-4 mb-4">
           <button onClick={handleEdit} title="Edit Recipe">
             <FaEdit size={24} className="text-yellow-500" />
           </button>
           <button onClick={handleDelete} title="Delete Recipe">
-            <FaTrash size={24} className="text-red-500" />
+            <FaTrash size={24} className="text-red-600" />
           </button>
         </div>
       )}
