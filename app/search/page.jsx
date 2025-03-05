@@ -98,12 +98,12 @@ export default function SearchRecipes() {
         </select>
       </div>
 
-      <div className="text-gray-300 mb-4">
+      <div className="text-gray-300 mb-4 mx-auto max-w-[448px]">
         {results.length} {results.length === 1 ? 'recipe' : 'recipes'} found
       </div>
 
       {currentResults.length === 0 && <p>No results found.</p>}
-      <ul>
+      <ul className="mx-auto max-w-[448px]">
         {currentResults.map((recipe) => (
           <li
             key={recipe.id}
@@ -126,7 +126,7 @@ export default function SearchRecipes() {
       </ul>
 
       {/* Pagination Controls */}
-      <div className="flex flex-col items-center mt-4">
+      <div className="flex flex-col items-center mt-4 mx-auto max-w-[448px]">
         <div className="flex justify-center gap-4 mb-2">
           {currentPage > 1 && (
             <button
