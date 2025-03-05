@@ -76,19 +76,19 @@ export default function SearchRecipes() {
     <div className="p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Search Recipes</h1>
       
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
+      <div className="flex flex-col gap-4 mb-4">
         <input
           type="text"
           placeholder="Search by title..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 p-2 border border-gray-300 rounded bg-gray-700 text-white"
+          className="w-full p-2 border border-gray-300 rounded bg-gray-700 text-white"
         />
         
         <select
           value={selectedCourse}
           onChange={(e) => setSelectedCourse(e.target.value)}
-          className="p-2 border border-gray-300 rounded bg-gray-700 text-white"
+          className="w-full p-2 border border-gray-300 rounded bg-gray-700 text-white"
         >
           {courseTypes.map((course) => (
             <option key={course} value={course}>
