@@ -280,6 +280,8 @@ export default function GroceryList() {
           id: doc.id,
           ...doc.data(),
         }));
+        // Sort items alphabetically by name
+        items.sort((a, b) => a.name.localeCompare(b.name));
         setGroceryItems(items);
       });
 

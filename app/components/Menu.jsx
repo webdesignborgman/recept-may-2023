@@ -51,7 +51,7 @@ export default function Menu() {
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-end z-10 bg-black bg-opacity-80 max-w-md w-full mx-auto">
-          <div className="absolute top-24 right-0 flex flex-col h-100 p-2 w-64 dark:dark:bg-gray-700 dark:dark:text-gray-100">
+          <div className="absolute top-24 right-0 flex flex-col h-100 p-2 w-64 bg-gray-700 text-gray-100">
             <div className="space-y-3 p-2">
               <div className="flex items-center justify-between">
                 <h2>Menu</h2>
@@ -66,7 +66,7 @@ export default function Menu() {
 
               <div className="flex-1">
                 <ul className="pt-2 pb-4 space-y-1 text-sm">
-                  <li className="rounded-sm hover:bg-gray-800">
+                  <li className="rounded-sm hover:bg-gray-800 bg-yellow-500">
                     <a
                       rel="noopener noreferrer"
                       href="/"
@@ -98,11 +98,11 @@ export default function Menu() {
                     </a>
                   </li>
 
-                  <li className="rounded-sm hover:bg-gray-800">
+                  <li className="rounded-sm hover:bg-red-800">
                     <a
                       rel="noopener noreferrer"
                       href="/groceries"
-                      className="flex items-center p-2 space-x-3 rounded-md text-2xl"
+                      className="flex items-center p-2 space-x-3 rounded-md text-2xl text-white-500"
                     >
                       <IoBagAddOutline />
                       <span className="text-lg">Groceries</span>

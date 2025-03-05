@@ -5,40 +5,47 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
+import { useRouter } from 'next/navigation';
 
-const RecipeForm = () => {
-  // Recipe form states
-  const [recipeTitle, setRecipeTitle] = useState('');
-  const [recipeDescription, setRecipeDescription] = useState('');
-  const [servingSize, setServingSize] = useState('');
-  const [course, setCourse] = useState('');
+const EditRecipeForm = ({ recipe }) => {
+  const router = useRouter();
 
-  // Ingredients and Cooking Steps stored as arrays.
-  const [ingredients, setIngredients] = useState(['']);
-  const [cookingSteps, setCookingSteps] = useState(['']);
+  // Initialize form fields with the existing recipe data.
+  const [recipeTitle, setRecipeTitle] = useState(recipe.recipeTitle);
+  const [recipeDescription, setRecipeDescription] = useState(recipe.recipeDescription);
+  const [servingSize, setServingSize] = useState(recipe.servingSize);
+  const [course, setCourse] = useState(recipe.course);
 
-  // Image & Crop states
-  const [upImg, setUpImg] = useState(null); // Data URL for preview
+  // Ingredients and cooking steps as dynamic arrays.
+  const [ingredients, setIngredients] = useState(recipe.ingredients || ['']);
+  const [cookingSteps, setCookingSteps] = useState(recipe.cookingSteps || ['']);
+
+  // For image handling:
+  // currentImageUrl holds the existing image URL.
+  // upImg will hold a new image's data URL if the user uploads one.
+  const [currentImageUrl, setCurrentImageUrl] = useState(recipe.imageUrl);
+  const [upImg, setUpImg] = useState(null);
   const imgRef = useRef(null);
+  // Fixed crop selection: 300x300 pixels.
   const [crop, setCrop] = useState({ unit: 'px', width: 300, height: 300, x: 0, y: 0, aspect: 1 });
   const [completedCrop, setCompletedCrop] = useState(null);
   const [croppedBlob, setCroppedBlob] = useState(null);
 
-  // Handle file input change and load image as data URL
+  // Handle new image file change.
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.onload = () => {
         setUpImg(reader.result);
-        console.log('File loaded, data URL set.');
+        console.log('New file loaded, data URL set.');
       };
       reader.readAsDataURL(e.target.files[0]);
     }
   };
 
-  // Generate the cropped image blob from the completed crop
+  // Generate the cropped image blob from the completed crop.
   const generateCroppedImage = async () => {
     console.log('generateCroppedImage called with completedCrop:', completedCrop);
     if (!completedCrop || !imgRef.current) {
@@ -85,7 +92,7 @@ const RecipeForm = () => {
     });
   };
 
-  // Ingredient handlers
+  // Ingredient handlers.
   const handleIngredientChange = (e, index) => {
     const newIngredients = [...ingredients];
     newIngredients[index] = e.target.value;
@@ -97,12 +104,11 @@ const RecipeForm = () => {
   };
 
   const handleRemoveIngredient = (index) => {
-    // Prevent removing the first ingredient.
     if (index === 0) return;
     setIngredients(ingredients.filter((_, i) => i !== index));
   };
 
-  // Cooking step handlers
+  // Cooking step handlers.
   const handleCookingStepChange = (e, index) => {
     const newSteps = [...cookingSteps];
     newSteps[index] = e.target.value;
@@ -118,41 +124,33 @@ const RecipeForm = () => {
     setCookingSteps(cookingSteps.filter((_, i) => i !== index));
   };
 
-  // Handle form submission: upload cropped image and add recipe document
+  // On form submission, update the recipe document.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!croppedBlob) {
-      alert('Please crop your image before submitting.');
-      return;
+    // If a new image has been uploaded and cropped, use it.
+    let imageUrlToUpdate = currentImageUrl;
+    if (croppedBlob) {
+      const storageRef = ref(storage, `images/${Date.now()}_cropped.jpg`);
+      await uploadBytes(storageRef, croppedBlob);
+      imageUrlToUpdate = await getDownloadURL(storageRef);
     }
 
-    // Upload cropped image to Firebase Storage
-    const storageRef = ref(storage, `images/${Date.now()}_cropped.jpg`);
-    await uploadBytes(storageRef, croppedBlob);
-    const imageUrl = await getDownloadURL(storageRef);
-
-    // Add new recipe to Firestore, including ingredients and cooking steps arrays
-    await addDoc(collection(db, 'recipe'), {
+    // Update the recipe document.
+    const recipeRef = doc(db, 'recipe', recipe.id);
+    await updateDoc(recipeRef, {
       recipeTitle,
       recipeDescription,
       servingSize,
       course,
       ingredients,
       cookingSteps,
-      imageUrl,
-      createdAt: serverTimestamp(),
+      imageUrl: imageUrlToUpdate,
+      // Optionally, add an updatedAt field.
     });
 
-    // Clear form states
-    setRecipeTitle('');
-    setRecipeDescription('');
-    setServingSize('');
-    setCourse('');
-    setIngredients(['']);
-    setCookingSteps(['']);
-    setUpImg(null);
-    setCroppedBlob(null);
+    router.push(`/recipes/${recipe.id}`);
+
   };
 
   return (
@@ -228,7 +226,6 @@ const RecipeForm = () => {
                 required
               />
               <div className="ml-2 flex">
-                {/* Plus icon on last ingredient */}
                 {index === ingredients.length - 1 && (
                   <button
                     type="button"
@@ -238,7 +235,6 @@ const RecipeForm = () => {
                     +
                   </button>
                 )}
-                {/* Minus icon on all but the first ingredient */}
                 {index !== 0 && (
                   <button
                     type="button"
@@ -290,31 +286,32 @@ const RecipeForm = () => {
           ))}
         </div>
 
-        {/* Optional preview of the raw uploaded image */}
-        {upImg && (
-          <img src={upImg} alt="Preview" style={{ maxWidth: '300px', marginBottom: '1rem' }} />
+        {/* Current Image Preview */}
+        {currentImageUrl && !upImg && (
+          <div>
+            <p className="text-yellow-500">Current Image:</p>
+            <img src={currentImageUrl} alt="Current" style={{ maxWidth: '300px', marginBottom: '1rem' }} />
+          </div>
         )}
 
-        {/* Image Upload */}
+        {/* New Image Upload (optional) */}
         <div>
-          <label className="text-yellow-500" htmlFor="image">Upload Image:</label>
+          <label className="text-yellow-500" htmlFor="image">Upload New Image (optional):</label>
           <input
             className="my-2 bg-blue-500"
             type="file"
             id="image"
             accept="image/*"
             onChange={handleImageChange}
-            required
           />
         </div>
 
-        {/* Image Cropper Preview */}
+        {/* New Image Cropper Preview */}
         {upImg && (
           <div>
             <ReactCrop
               crop={crop}
               onChange={(newCrop) => {
-                // Force crop to remain fixed at 300x300
                 setCrop({ ...newCrop, unit: 'px', width: 300, height: 300, aspect: 1 });
                 console.log('Crop changed:', newCrop);
               }}
@@ -338,15 +335,15 @@ const RecipeForm = () => {
               onClick={generateCroppedImage}
               className="my-4 px-4 py-2 bg-green-500 rounded"
             >
-              Crop Image
+              Crop New Image
             </button>
           </div>
         )}
 
-        {/* Preview Cropped Image */}
+        {/* Preview Cropped New Image */}
         {croppedBlob && (
           <div>
-            <p className="text-yellow-500">Cropped Image Preview:</p>
+            <p className="text-yellow-500">Cropped New Image Preview:</p>
             <img
               src={URL.createObjectURL(croppedBlob)}
               alt="Cropped preview"
@@ -359,11 +356,11 @@ const RecipeForm = () => {
           className="w-2/4 my-4 px-2 py-2 rounded-md bg-yellow-500 text-gray-900"
           type="submit"
         >
-          Add Recipe
+          Update Recipe
         </button>
       </form>
     </div>
   );
 };
 
-export default RecipeForm;
+export default EditRecipeForm;

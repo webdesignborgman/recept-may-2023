@@ -6,6 +6,7 @@ import Nav from './components/Nav';
 import { AuthProvider } from './firebase/AuthContext';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           <Header />
           <Nav />
           {children}
+          <Analytics/>
           <Footer />
         </AuthProvider>
       </body>

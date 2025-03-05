@@ -69,7 +69,7 @@ export default function Login({ onSignUpClick }) {
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="current-email"
               placeholder="leroy@jenkins.com"
-              className="w-full px-3 py-2 border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
+              className="w-full px-3 py-2 text-black border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
             />
           </div>
           <div className="space-y-2">
@@ -101,7 +101,7 @@ export default function Login({ onSignUpClick }) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="*****"
               autoComplete="current-password"
-              className="w-full px-3 py-2 border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
+              className="w-full px-3 py-2 text-black border rounded-md dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
             />
           </div>
         </div>
