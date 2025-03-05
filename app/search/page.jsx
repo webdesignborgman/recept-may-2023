@@ -76,7 +76,7 @@ export default function SearchRecipes() {
     <div className="p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Search Recipes</h1>
       
-      <div className="flex flex-col gap-4 mb-4">
+      <div className="flex flex-col gap-4 mb-4 mx-auto max-w-[448px]">
         <input
           type="text"
           placeholder="Search by title..."
